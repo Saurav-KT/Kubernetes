@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-init-container
+  labels:
+    plat: ddl
+spec:
+  selector:
+    matchLabels:
+      plat: ddl
+  template:
+    metadata:
+      labels:
+        plat: ddl
+    spec:
+      initContainers:
+        - name: busybox
+          image: harbor.dell.com/ai-accel-plat/imagecompliance/busybox:1.31.1
+          command: ["sleep","30"]
+      containers:
+        - name: nginx
+          image: harbor.dell.com/ai-accel-plat/imagecompliance/nginx:1.14.2

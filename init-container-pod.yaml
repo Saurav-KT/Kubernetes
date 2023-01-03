@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    name: init-container
+    labels:
+      app: init-container
+spec:
+  containers:
+    - name: firstcontainer
+      image: harbor.dell.com/ai-accel-plat/imagecompliance/nginx:1.14.2
+      args: ["sleep","60"]
+    - name: secondcontainer
+      image: harbor.dell.com/ai-accel-plat/imagecompliance/nginx:1.14.2
+  initContainers:
+    - name: initcontainer1
+      image: harbor.dell.com/ai-accel-plat/imagecompliance/nginx:1.14.2
+      args: ["sleep","30"]
+    - name: initcontainer2
+      image: harbor.dell.com/ai-accel-plat/imagecompliance/nginx:1.14.2
+      args: ["sleep","30"]
+

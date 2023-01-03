@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sidecarcontainer
+spec:
+  containers:
+    - name: nginx1
+      image: harbor.dell.com/ai-accel-plat/imagecompliance/nginx:1.14.2
+      args:
+        - /bin/bash
+        - -c
+        - >
+          while true; do
+            echo "$(date) INFO hello" >> /var/log/myapp.log;
+            sleep 1;
+          done
+      volumeMounts:
+        - name: log
+          mountPath: /var/log
+    - name: nginx2
+      image: harbor.dell.com/ai-accel-plat/imagecompliance/nginx:1.14.2
+      args:
+        - /bin/bash
+        - -c
+        - ls -lrt
+        - tail -fn+1 /var/log/myapp.log
+        - cat /var/log/myapp.log
+      volumeMounts:
+        - name: log
+          mountPath: /var/log
+  volumes:
+    - name: log
+      emptyDir:
+        {}

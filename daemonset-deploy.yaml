@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app: busybox
+  name: busybox
+  namespace: test-namespace
+spec:
+  selector:
+    matchLabels:
+      app: busybox
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      containers:
+      - image: harbor.dell.com/ai-accel-plat/imagecompliance/busybox:1.31.1
+        name: busybox
+        resources: {}

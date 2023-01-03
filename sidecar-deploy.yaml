@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      name: simple-webapp-pod
+      labels:
+        app: webapp
+    spec:
+      containers:
+        - name: main-app
+          image: nginx
+          volumeMounts:
+            - name: shared-log
+              mountPath: /var/log/nginx
+        - name: sidecar-container
+          image: busybox
+          command: ["sh","-c","while true; do cat /var/log/nginx/access.log; sleep 30; done"]
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /var/log/nginx
+      volumes:
+          - name: shared logs
+            emptyDir: {}
